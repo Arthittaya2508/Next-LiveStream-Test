@@ -1,0 +1,102 @@
+@mixin Ldesktop {
+  @media (min-width: #{$screen-LDesktop}) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: #{$screen-desktop}) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (min-width: #{$screen-tablet}) {
+    @content;
+  }
+}
+
+@mixin mobile {
+  @media (max-width: #{$screen-desktop}) {
+    @content;
+  }
+}
+
+@mixin mobile_error {
+  @media (max-width: #{$screen-tablet}) {
+    @content;
+  }
+}
+
+//responsive portrait
+@mixin portrait_tablet {
+  @media only screen and (min-width: #{$portrait-tablet}) and (max-width: 1279px) {
+    @content;
+  }
+}
+
+@mixin portrait_mobile {
+  @media only screen and (min-width: #{$portrait-mobile}) and (max-width: 767px) {
+    @content;
+  }
+}
+
+$size: 30px;
+$speed: 3s;
+$peak-opacity: 0.7;
+
+@mixin arrow($color: $color-primary) {
+  width: $size;
+  height: $size;
+  position: relative;
+
+  &:before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-left: $size/3 solid rgba($color, $peak-opacity);
+    border-bottom: $size/3 solid rgba($color, $peak-opacity);
+    transform: translate($size/3, $size * 4/3) rotate(-45deg);
+    animation: arrows $speed linear infinite;
+  }
+  &:after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-left: $size/3 solid rgba($color, $peak-opacity);
+    border-bottom: $size/3 solid rgba($color, $peak-opacity);
+    transform: translate($size * 2/3, 0px) rotate(-45deg);
+    animation: arrows $speed linear infinite $speed/-2;
+  }
+
+  &-container {
+    flex: 2;
+    width: $size * 1.414;
+    height: $size * 1.414;
+  }
+
+  @keyframes arrows {
+    0% {
+      border-left: $size/3 solid rgba($color, 0);
+      border-bottom: $size/3 solid rgba($color, 0);
+      transform: translate($size/-6, $size * 4/-6) rotate(-45deg);
+    }
+    10%,
+    90% {
+      border-left: $size/3 solid rgba($color, 0);
+      border-bottom: $size/3 solid rgba($color, 0);
+    }
+    50% {
+      border-left: $size/3 solid rgba($color, $peak-opacity);
+      border-bottom: $size/3 solid rgba($color, $peak-opacity);
+      transform: translate($size/-6, 0px) rotate(-45deg);
+    }
+    100% {
+      border-left: $size/3 solid rgba($color, 0);
+      border-bottom: $size/3 solid rgba($color, 0);
+      transform: translate($size/-6, $size * 4/6) rotate(-45deg);
+    }
+  }
+}

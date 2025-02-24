@@ -1,0 +1,99 @@
+// html {
+//   font-size: 16px;
+//   // -webkit-print-color-adjust: exact;
+//   // -webkit-filter: opacity(1);
+// }
+
+// body {
+//   margin: 0;
+// }
+
+// @font-face {
+//   font-family: "KANITBold";
+//   src: local("KANITBold"), url(~assets/fonts/Kanit-Bold.ttf) format("truetype");
+// }
+// @font-face {
+//   font-family: "KANITSemiBold";
+//   src: local("KANITSemiBold"),
+//     url(~assets/fonts/Kanit-SemiBold.ttf) format("truetype");
+// }
+// @font-face {
+//   font-family: "KANITReg";
+//   src: local("KANITReg"),
+//     url(~assets/fonts/Kanit-Regular.ttf) format("truetype");
+// }
+// @font-face {
+//   font-family: "SARABUNReg";
+//   src: local("SARABUNReg"),
+//     url(~assets/fonts/Sarabun-Regular.ttf) format("truetype");
+// }
+// @font-face {
+//   font-family: "SARABUNReg";
+//   src: local("SARABUNReg"),
+//     url(~assets/fonts/Sarabun-Regular.ttf) format("truetype");
+// }
+
+// // @font-face {
+// //   font-family: "chulalongkornbold-webfont";
+// //   src: local("chulalongkornbold-webfont"),
+// //    url(~assets/fonts/chulalongkornbold-webfont.ttf) format("truetype");
+// // }
+
+// #app {
+//   font-family: "KANITReg", "KANITBold", "Kanit", Helvetica, Arial, sans-serif;
+//   -webkit-font-smoothing: antialiased;
+//   -moz-osx-font-smoothing: grayscale;
+// }
+
+// .text {
+//   color: $color-grey-4;
+// }
+// input {
+//   font-family: $font-family-sarabun-reg;
+// }
+
+// .text-blue {
+//   color: $color-text-blue;
+// }
+
+// .text-gray {
+//   color: $color-grey-4;
+// }
+
+// .gray-color {
+//   color: $color-CU-grey;
+// }
+
+// .button-pink {
+//   background-color: $color-pink-1 !important;
+// }
+
+// @media print {
+//   .pdf {
+//     &-text {
+//       font-size: 11px !important;
+//       color: $color-CU-grey;
+//     }
+//     &-subheader {
+//       font-size: 14px !important;
+//       color: $color-CU-grey;
+//     }
+//     &-header {
+//       font-size: 16px !important;
+//       color: $color-CU-grey;
+//     }
+//   }
+// }
+
+// .v-btn {
+//   height: 45px;
+// }
+
+// .v-btn.v-btn--round.v-size--default {
+//   height: 56px !important;
+// }
+
+// //Select Input
+// .v-input.v-select {
+//   border-radius: 10px;
+// }

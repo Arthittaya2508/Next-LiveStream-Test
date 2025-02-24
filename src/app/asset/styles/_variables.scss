@@ -1,0 +1,60 @@
+@import "~vuetify/src/styles/styles.sass";
+// Typography
+// $font-family-base: sans-serif;
+// $base-font-size: 16;
+$font-path: "~@/assets/fonts/";
+$font-family-kanit: "Kanit", sans-serif;
+$font-family-material-icon: "Material Icons";
+$font-family-prajad: "CSPraJad";
+$font-family-sarabun: "Sarabun", sans-serif;
+$font-family-sarabun-reg: "SARABUNReg", "Sarabun";
+$font-family-sarabun-bold: "SARABUNBold", "Sarabun";
+$font-family-vaji-reg: "KANITReg", "Kanit";
+$font-family-vaji-bold: "KANITBold", "Kanit";
+$font-family-vaji-semibold: "KANITSemiBold", "Kanit";
+
+$color-primary: rgba(36, 209, 232, 1);
+$color-primary-70: rgba(36, 209, 232, 0.7);
+$color-primary-0: rgba(36, 209, 232, 0);
+$color-secondary: #fad456;
+$color-CU-grey: #58595b;
+$color-CU-pink: #de5c8e;
+$vaji-primary: #ff865e;
+$vaji-secondary: #4bc6e1;
+
+$color-black-10: #dfdfdf;
+$color-black-25: #acacac;
+$color-yellow-1: #ffd487;
+$color-yellow-2: #fef5d7;
+$color-white-3: rgba(255, 255, 255, 0.3);
+$color-white: #ffffff;
+$color-pink-1: #de5c8e;
+$color-grey-1: #757575;
+$color-grey-2: #f6f6f6;
+$color-grey-3: #b8b8b8;
+$color-grey-4: #58595b;
+$color-blue-1: #33658a;
+$color-blue-2: #2f4858;
+$color-blue-3: #cee2e6;
+$color-blue-4: #8eadbf;
+$color-black: #474747;
+$color-real-black: #000000;
+
+$color-cu-primary-1: #de5c8e;
+$color-cu-primary-2: rgba(222, 92, 142, 0.1);
+$color-cu-secondary-1: #58595b;
+$color-cu-font-1: #47484a;
+
+$color-success: rgba(98, 226, 124, 1);
+$color-error: rgba(243, 87, 46, 1);
+$color-text: rgb(28, 28, 28);
+$color-text-blue: rgb(46, 72, 88);
+$screen-desktop: 960px;
+$screen-tablet: 600px;
+$screen-LDesktop: 1264px;
+$portrait-tablet: 768px;
+$portrait-mobile: 375px;
+$transform: all 1s cubic-bezier(0.785, 0.135, 0.15, 0.86);
+
+$box-shadow: 2px 4px 9px 0 rgba(0, 0, 0, 0.2);
+$border-radius: 10px;
