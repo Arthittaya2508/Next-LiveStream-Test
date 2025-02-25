@@ -8,9 +8,11 @@ const VideoPlayer = () => {
   const [stream, setStream] = useState(null);
   const [mic, setMic] = useState(true);
   const [camera, setCamera] = useState(true);
+  const [callActive, setCallActive] = useState(false);
   const myVideo = useRef(null);
   const remoteVideo = useRef(null);
   const peer = useRef(null);
+  const currentCall = useRef(null);
 
   useEffect(() => {
     const initPeer = async () => {
@@ -21,10 +23,17 @@ const VideoPlayer = () => {
       peer.current.on("call", (call) => {
         if (stream) {
           call.answer(stream);
+          currentCall.current = call;
+          setCallActive(true);
+
           call.on("stream", (remoteStream) => {
             if (remoteVideo.current) {
               remoteVideo.current.srcObject = remoteStream;
             }
+          });
+
+          call.on("close", () => {
+            endCall();
           });
         } else {
           console.warn("Stream not ready when receiving a call!");
@@ -36,7 +45,7 @@ const VideoPlayer = () => {
       try {
         const mediaStream = await navigator.mediaDevices.getUserMedia({
           video: true,
-          audio: true, // ตรวจสอบว่าไมค์เปิดให้ใช้งาน
+          audio: true,
         });
         setStream(mediaStream);
         if (myVideo.current) {
@@ -55,19 +64,6 @@ const VideoPlayer = () => {
     };
   }, []);
 
-  useEffect(() => {
-    if (peer.current && stream) {
-      peer.current.on("call", (call) => {
-        call.answer(stream);
-        call.on("stream", (remoteStream) => {
-          if (remoteVideo.current) {
-            remoteVideo.current.srcObject = remoteStream;
-          }
-        });
-      });
-    }
-  }, [stream]); // รีเรนเดอร์ใหม่เมื่อ stream พร้อมใช้งาน
-
   const callPeer = () => {
     if (!remotePeerId) {
       alert("Please enter a valid Peer ID");
@@ -78,11 +74,29 @@ const VideoPlayer = () => {
       return;
     }
     const call = peer.current.call(remotePeerId, stream);
+    currentCall.current = call;
+    setCallActive(true);
+
     call.on("stream", (remoteStream) => {
       if (remoteVideo.current) {
         remoteVideo.current.srcObject = remoteStream;
       }
     });
+
+    call.on("close", () => {
+      endCall();
+    });
+  };
+
+  const endCall = () => {
+    if (currentCall.current) {
+      currentCall.current.close();
+      currentCall.current = null;
+    }
+    setCallActive(false);
+    if (remoteVideo.current) {
+      remoteVideo.current.srcObject = null;
+    }
   };
 
   const toggleMic = () => {
@@ -115,7 +129,11 @@ const VideoPlayer = () => {
         onChange={(e) => setRemotePeerId(e.target.value)}
         placeholder="Enter Peer ID"
       />
-      <button onClick={callPeer}>📞 Call</button>
+      {!callActive ? (
+        <button onClick={callPeer}>📞 Call</button>
+      ) : (
+        <button onClick={endCall}>❌ End Call</button>
+      )}
 
       <div className={styles.videoWrapper}>
         <video ref={myVideo} autoPlay playsInline muted></video>
