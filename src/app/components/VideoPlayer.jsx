@@ -9,6 +9,7 @@ const VideoPlayer = () => {
   const [mic, setMic] = useState(true);
   const [camera, setCamera] = useState(true);
   const [callActive, setCallActive] = useState(false);
+  const [incomingCall, setIncomingCall] = useState(null);
   const myVideo = useRef(null);
   const remoteVideo = useRef(null);
   const peer = useRef(null);
@@ -21,23 +22,7 @@ const VideoPlayer = () => {
       peer.current.on("open", (id) => setPeerId(id));
 
       peer.current.on("call", (call) => {
-        if (stream) {
-          call.answer(stream);
-          currentCall.current = call;
-          setCallActive(true);
-
-          call.on("stream", (remoteStream) => {
-            if (remoteVideo.current) {
-              remoteVideo.current.srcObject = remoteStream;
-            }
-          });
-
-          call.on("close", () => {
-            endCall();
-          });
-        } else {
-          console.warn("Stream not ready when receiving a call!");
-        }
+        setIncomingCall(call);
       });
     };
 
@@ -63,6 +48,32 @@ const VideoPlayer = () => {
       if (peer.current) peer.current.destroy();
     };
   }, []);
+
+  const acceptCall = () => {
+    if (incomingCall && stream) {
+      incomingCall.answer(stream);
+      currentCall.current = incomingCall;
+      setCallActive(true);
+      setIncomingCall(null);
+
+      incomingCall.on("stream", (remoteStream) => {
+        if (remoteVideo.current) {
+          remoteVideo.current.srcObject = remoteStream;
+        }
+      });
+
+      incomingCall.on("close", () => {
+        endCall();
+      });
+    }
+  };
+
+  const declineCall = () => {
+    if (incomingCall) {
+      incomingCall.close();
+      setIncomingCall(null);
+    }
+  };
 
   const callPeer = () => {
     if (!remotePeerId) {
@@ -133,6 +144,14 @@ const VideoPlayer = () => {
         <button onClick={callPeer}>📞 Call</button>
       ) : (
         <button onClick={endCall}>❌ End Call</button>
+      )}
+
+      {incomingCall && (
+        <div className={styles.incomingCall}>
+          <p>Incoming call...</p>
+          <button onClick={acceptCall}>✅ Accept</button>
+          <button onClick={declineCall}>❌ Decline</button>
+        </div>
       )}
 
       <div className={styles.videoWrapper}>
