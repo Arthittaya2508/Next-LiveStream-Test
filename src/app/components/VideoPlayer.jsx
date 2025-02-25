@@ -35,6 +35,7 @@ const VideoPlayer = () => {
         setStream(mediaStream);
         if (myVideo.current) {
           myVideo.current.srcObject = mediaStream;
+          myVideo.current.style.transform = "scaleX(-1)";
         }
       } catch (error) {
         console.error("Failed to access media devices:", error);
