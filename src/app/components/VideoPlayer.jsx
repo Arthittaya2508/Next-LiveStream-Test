@@ -14,6 +14,7 @@ const VideoPlayer = () => {
   const remoteVideo = useRef(null);
   const peer = useRef(null);
   const currentCall = useRef(null);
+  const ringtone = useRef(new Audio("/ringtone.mp3"));
 
   useEffect(() => {
     const initPeer = async () => {
@@ -23,6 +24,7 @@ const VideoPlayer = () => {
 
       peer.current.on("call", (call) => {
         setIncomingCall(call);
+        ringtone.current.play();
       });
     };
 
@@ -35,6 +37,7 @@ const VideoPlayer = () => {
         setStream(mediaStream);
         if (myVideo.current) {
           myVideo.current.srcObject = mediaStream;
+          myVideo.current.style.transform = "scaleX(-1)";
         }
       } catch (error) {
         console.error("Failed to access media devices:", error);
@@ -51,6 +54,8 @@ const VideoPlayer = () => {
 
   const acceptCall = () => {
     if (incomingCall && stream) {
+      ringtone.current.pause();
+      ringtone.current.currentTime = 0;
       incomingCall.answer(stream);
       currentCall.current = incomingCall;
       setCallActive(true);
@@ -70,6 +75,8 @@ const VideoPlayer = () => {
 
   const declineCall = () => {
     if (incomingCall) {
+      ringtone.current.pause();
+      ringtone.current.currentTime = 0;
       incomingCall.close();
       setIncomingCall(null);
     }
@@ -155,8 +162,19 @@ const VideoPlayer = () => {
       )}
 
       <div className={styles.videoWrapper}>
-        <video ref={myVideo} autoPlay playsInline muted></video>
-        <video ref={remoteVideo} autoPlay playsInline></video>
+        <video
+          ref={myVideo}
+          autoPlay
+          playsInline
+          muted
+          className={styles.videoElement}
+        ></video>
+        <video
+          ref={remoteVideo}
+          autoPlay
+          playsInline
+          className={styles.videoElement}
+        ></video>
       </div>
 
       <button onClick={toggleMic}>{mic ? "🔊 Mic ON" : "🔇 Mic OFF"}</button>
