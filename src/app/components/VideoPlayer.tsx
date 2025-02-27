@@ -1,27 +1,30 @@
 import { useEffect, useRef, useState } from "react";
-import Peer from "peerjs";
-import styles from "../components/VideoPlayer.module.scss";
+import Peer, { MediaConnection } from "peerjs";
+import styles from "../asset/styles/VideoPlayer.module.scss";
 
-const VideoPlayer = () => {
-  const [peerId, setPeerId] = useState(null);
-  const [remotePeerId, setRemotePeerId] = useState("");
-  const [stream, setStream] = useState(null);
-  const [mic, setMic] = useState(true);
-  const [camera, setCamera] = useState(true);
-  const [callActive, setCallActive] = useState(false);
-  const [incomingCall, setIncomingCall] = useState(null);
-  const myVideo = useRef(null);
-  const remoteVideo = useRef(null);
-  const peer = useRef(null);
-  const currentCall = useRef(null);
+const VideoPlayer: React.FC = () => {
+  const [peerId, setPeerId] = useState<string | null>(null);
+  const [remotePeerId, setRemotePeerId] = useState<string>("");
+  const [stream, setStream] = useState<MediaStream | null>(null);
+  const [mic, setMic] = useState<boolean>(true);
+  const [camera, setCamera] = useState<boolean>(true);
+  const [callActive, setCallActive] = useState<boolean>(false);
+  const [incomingCall, setIncomingCall] = useState<MediaConnection | null>(
+    null
+  );
+
+  const myVideo = useRef<HTMLVideoElement | null>(null);
+  const remoteVideo = useRef<HTMLVideoElement | null>(null);
+  const peer = useRef<Peer | null>(null);
+  const currentCall = useRef<MediaConnection | null>(null);
 
   useEffect(() => {
-    const initPeer = async () => {
+    const initPeer = () => {
       peer.current = new Peer();
 
-      peer.current.on("open", (id) => setPeerId(id));
+      peer.current.on("open", (id: string) => setPeerId(id));
 
-      peer.current.on("call", (call) => {
+      peer.current.on("call", (call: MediaConnection) => {
         setIncomingCall(call);
       });
     };
@@ -57,7 +60,7 @@ const VideoPlayer = () => {
       setCallActive(true);
       setIncomingCall(null);
 
-      incomingCall.on("stream", (remoteStream) => {
+      incomingCall.on("stream", (remoteStream: MediaStream) => {
         if (remoteVideo.current) {
           remoteVideo.current.srcObject = remoteStream;
         }
@@ -85,19 +88,21 @@ const VideoPlayer = () => {
       alert("Stream not ready!");
       return;
     }
-    const call = peer.current.call(remotePeerId, stream);
-    currentCall.current = call;
-    setCallActive(true);
+    const call = peer.current?.call(remotePeerId, stream);
+    if (call) {
+      currentCall.current = call;
+      setCallActive(true);
 
-    call.on("stream", (remoteStream) => {
-      if (remoteVideo.current) {
-        remoteVideo.current.srcObject = remoteStream;
-      }
-    });
+      call.on("stream", (remoteStream: MediaStream) => {
+        if (remoteVideo.current) {
+          remoteVideo.current.srcObject = remoteStream;
+        }
+      });
 
-    call.on("close", () => {
-      endCall();
-    });
+      call.on("close", () => {
+        endCall();
+      });
+    }
   };
 
   const endCall = () => {
