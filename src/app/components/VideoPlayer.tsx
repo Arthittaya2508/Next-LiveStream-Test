@@ -18,9 +18,25 @@ const VideoPlayer: React.FC = () => {
   const peer = useRef<Peer | null>(null);
   const currentCall = useRef<MediaConnection | null>(null);
 
+  const generatePeerId = () => {
+    const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+    const numbers = "0123456789";
+
+    const randomLetters = Array.from({ length: 4 }, () =>
+      letters.charAt(Math.floor(Math.random() * letters.length))
+    ).join("");
+
+    const randomNumbers = Array.from({ length: 4 }, () =>
+      numbers.charAt(Math.floor(Math.random() * numbers.length))
+    ).join("");
+
+    return `${randomLetters}-${randomNumbers}`;
+  };
+
   useEffect(() => {
     const initPeer = () => {
-      peer.current = new Peer();
+      const customPeerId = generatePeerId();
+      peer.current = new Peer(customPeerId);
 
       peer.current.on("open", (id: string) => setPeerId(id));
 

@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@ffmpeg/ffmpeg": "^0.12.15",
     "next": "^15.1.7",
     "peerjs": "^1.5.4",
     "react": "^19.0.0",
